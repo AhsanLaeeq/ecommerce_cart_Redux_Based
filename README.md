@@ -115,7 +115,7 @@ Edit
 bash
 Copy
 Edit
-git clone https://github.com/AhsanLaeeq/Redux-Shopping-Cart.git
+git clone https://github.com/AhsanLaeeq/ecommerce_cart_Redux_Based
 cd Redux-Shopping-Cart
 2️⃣ Install dependencies
 

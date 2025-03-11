@@ -1,70 +1,146 @@
-# Getting Started with Create React App
+🛍️ Redux Shopping Cart 🛒
+A simple shopping cart project built with React, Redux, and Bootstrap, featuring a balance system that allows users to deposit and withdraw money dynamically.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+🔥 Features
+✅ Redux State Management – Track user balance, deposit, and withdraw money.
+✅ React Router – Navigate seamlessly between pages.
+✅ Bootstrap UI – Modern, responsive, and user-friendly design.
+✅ Dynamic Pricing – Add and remove items while updating the total cost.
+✅ Optimized State Handling – Using react-redux and redux-thunk.
 
-## Available Scripts
+🎯 Focus on Redux – How It Works?
+This project is designed to demonstrate Redux in action, showing how state management works in a React application.
 
-In the project directory, you can run:
+🔵 1. Redux Store (store.js)
+The store is the central place where the global state is stored. It is created using:
 
-### `npm start`
+javascript
+Copy
+Edit
+import { createStore, applyMiddleware } from "redux";
+import reducers from "./action-creators/reducers";
+import { thunk } from "redux-thunk";
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+export const store = createStore(reducers, {}, applyMiddleware(thunk));
+Here, we apply Redux Thunk as middleware to allow asynchronous actions.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+🔴 2. Actions (action-creators/index.js)
+Actions define what kind of changes we want to make in the state.
 
-### `npm test`
+Deposit Money Action
+javascript
+Copy
+Edit
+export const depositMoney = (amount) => {
+    return (dispatch) => {
+        dispatch({
+            type: 'deposit',
+            payload: Number(amount),
+        });
+    };
+};
+Withdraw Money Action
+javascript
+Copy
+Edit
+export const withdrawMoney = (amount) => {
+    return (dispatch) => {
+        dispatch({
+            type: "withdraw",
+            payload: Number(amount),
+        });
+    };
+};
+These functions dispatch actions with a type and payload.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+🟢 3. Reducer (reducers/index.js)
+A reducer determines how the state should change based on an action.
 
-### `npm run build`
+javascript
+Copy
+Edit
+const reducer = (state = 0, action) => {
+    if (action.type === 'deposit') {
+        return state + action.payload;
+    } else if (action.type === 'withdraw') {
+        return state - action.payload;
+    } else {
+        return state;
+    }
+};
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+export default reducer;
+Here, when a deposit action is dispatched, the balance increases.
+When a withdraw action is dispatched, the balance decreases.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+🟡 4. Connecting Redux to React (Shop.js)
+We use Redux hooks to connect our React components to the Redux store.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+javascript
+Copy
+Edit
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators } from '../state/index';
+import { bindActionCreators } from 'redux';
 
-### `npm run eject`
+const dispatch = useDispatch();
+const { withdrawMoney, depositMoney } = bindActionCreators(actionCreators, dispatch);
+const amount = useSelector(state => state.amount);
+useSelector(state => state.amount) – Gets the current balance from the Redux store.
+useDispatch() – Used to dispatch actions like deposit and withdraw.
+bindActionCreators() – Binds action creators so we can call them directly.
+📂 Project Structure
+scss
+Copy
+Edit
+📦 Redux-Shopping-Cart  
+ ┣ 📂 src  
+ ┃ ┣ 📂 component  
+ ┃ ┃ ┣ 📜 Navbar.js  
+ ┃ ┃ ┣ 📜 Shop.js  
+ ┃ ┃ ┣ 📂 image (Contains product images)  
+ ┃ ┣ 📂 state  
+ ┃ ┃ ┣ 📂 action-creators  
+ ┃ ┃ ┃ ┣ 📜 index.js (Export all action creators)  
+ ┃ ┃ ┃ ┣ 📜 reducer.js (Handles deposit & withdraw actions)  
+ ┃ ┃ ┣ 📜 store.js (Configures Redux store)  
+ ┃ ┣ 📜 App.js (Main React component)  
+ ┃ ┣ 📜 index.js (Entry point of the app)  
+ ┣ 📜 package.json  
+ ┣ 📜 README.md  
+ ┣ 📜 .gitignore  
+🚀 Installation & Setup
+1️⃣ Clone the repository
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+bash
+Copy
+Edit
+git clone https://github.com/AhsanLaeeq/Redux-Shopping-Cart.git
+cd Redux-Shopping-Cart
+2️⃣ Install dependencies
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+bash
+Copy
+Edit
+npm install
+3️⃣ Run the application
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+bash
+Copy
+Edit
+npm start
+⚡ Technologies Used
+🔹 React – Component-based UI
+🔹 Redux – State management
+🔹 Redux-Thunk – Async middleware
+🔹 Bootstrap – Styling framework
+🔹 React Router – Navigation
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+📸 Screenshots
+🏠 Home Page	🛍️ Shop Page
+👨‍💻 Author
+Ahsan Laeeq – Full-Stack Developer
+🔗 GitHub Profile
 
-## Learn More
+🚀 Happy Coding! 🚀
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
